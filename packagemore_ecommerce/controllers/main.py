@@ -21,3 +21,4 @@ class CheckoutRestrict(WebsiteSale):
         search_product = search_product.filtered(lambda product: not product.exclusive_customer or product.exclusive_customer.id == partner_id)
         print(len(search_product))
         return fuzzy_search_term, product_count, search_product
+    
