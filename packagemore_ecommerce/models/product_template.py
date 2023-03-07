@@ -10,6 +10,6 @@ class ProductTemplate(models.Model):
         help=_("""
         When this field is not set, products are visible to all partners on ecommerce. 
         When a partner is set, product is only visible to that partner on ecommerce
-        """)
+        """),
     )
     

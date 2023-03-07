@@ -17,8 +17,7 @@ class CheckoutRestrict(WebsiteSale):
     def _shop_lookup_products(self, attrib_set, options, post, search, website):
         fuzzy_search_term, product_count, search_product = super(CheckoutRestrict, self)._shop_lookup_products(attrib_set, options, post, search, website)
         partner_id = request.env.user.partner_id.id
-        print(len(search_product))
         search_product = search_product.filtered(lambda product: not product.exclusive_customer or product.exclusive_customer.id == partner_id)
-        print(len(search_product))
+        product_count = len(search_product)
         return fuzzy_search_term, product_count, search_product
-    
+       

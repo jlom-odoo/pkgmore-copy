@@ -1,1 +1,1 @@
-from . import ecommerce_tests, please_work
+from . import test_ecommerce
