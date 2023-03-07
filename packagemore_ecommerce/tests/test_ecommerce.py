@@ -5,7 +5,7 @@ from odoo.http import root
 from odoo.addons.packagemore_ecommerce.controllers.main import CheckoutRestrict 
 from odoo.addons.website.tools import MockRequest
 
-@tagged('post_install', '-at_install', 'package')
+@tagged('post_install', '-at_install')
 class TestEcommerce(HttpCaseWithUserPortal):
 
     @classmethod
@@ -94,4 +94,4 @@ class TestEcommerce(HttpCaseWithUserPortal):
         self.assertTrue(self.regular_product.id in product_ids)
         self.assertTrue(self.my_exclusive_product.id in product_ids)       
         self.assertFalse(self.other_exclusive_product.id in product_ids)
-        
+    
