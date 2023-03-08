@@ -83,15 +83,15 @@ class TestEcommerce(HttpCaseWithUserPortal):
         self.assertEqual(res.status_code, 200) #200 is HTTP code for OK
 
 
-    # def test_product_filter(self):
-    #     self.my_exclusive_product.write({
-    #         'exclusive_customer': self.env.user.partner_id.id
-    #     })
+    def test_product_filter(self):
+        self.my_exclusive_product.write({
+            'exclusive_customer': self.env.user.partner_id.id
+        })
         
-    #     with MockRequest(self.env, website=self.website):
-    #         res = self.Controller._shop_lookup_products(self.attrib_set, self.options, self.post, self.search, self.website)
-    #         product_ids = map(lambda x: x.id, res[2])
-    #     self.assertTrue(self.regular_product.id in product_ids)
-    #     self.assertTrue(self.my_exclusive_product.id in product_ids)       
-    #     self.assertFalse(self.other_exclusive_product.id in product_ids)
+        with MockRequest(self.env, website=self.website):
+            res = self.Controller._shop_lookup_products(self.attrib_set, self.options, self.post, self.search, self.website)
+            product_ids = map(lambda x: x.id, res[2])
+        self.assertTrue(self.regular_product.id in product_ids)
+        self.assertTrue(self.my_exclusive_product.id in product_ids)       
+        self.assertFalse(self.other_exclusive_product.id in product_ids)
     
