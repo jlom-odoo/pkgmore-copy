@@ -1,6 +1,6 @@
-# -*- coding: utf-8 -*-
+
 {
-    'name': 'PackagemoreEcommerce',
+    'name': 'Packagemore Ecommerce',
 
     'summary': 'Restrictions on ecommerce views',
 

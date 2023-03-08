@@ -10,7 +10,7 @@ class CheckoutRestrict(WebsiteSale):
     def checkout(self, **post):
         user = request.env.user
         if not user.has_group('base.group_portal'):
-            raise AccessError(_('Only portal users can checkout. If you are a portal user, please sign in.'))
+            raise AccessError(_('You need to be logged into your portal account, please sign in with your portal account to be able to complete your order in the cart'))
         else:
             return super(CheckoutRestrict, self).checkout(**post)
         
