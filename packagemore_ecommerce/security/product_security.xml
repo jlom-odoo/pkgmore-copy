@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo>
     <data>
-        <record id="exclusive_products_prevent_read_rights" model="ir.rule">
+        <record id="portal_user_exclusive_product_read_rights" model="ir.rule">
             <field name="name">Allow portal users to view non exclusive products and their exclusive products</field>
             <field name="model_id" ref="model_product_template"/>
             <field name="domain_force">['|',('exclusive_customer','=',False),('exclusive_customer.id','=',user.id)]</field> 
@@ -9,7 +9,7 @@
             <field name="perm_read" eval="True"/> 
         </record>
 
-        <record id="exclusive_products_prevent_read_rights_2" model="ir.rule">
+        <record id="internal_user_exclusive_product_read_rights" model="ir.rule">
             <field name="name">Allow internal users to view all products</field>
             <field name="model_id" ref="model_product_template"/>
             <field name="domain_force">[(1,'=',1)]</field>
