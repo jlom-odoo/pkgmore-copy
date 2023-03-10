@@ -1,5 +1,5 @@
 from odoo.addons.website_sale.tests.test_website_sale_add_to_cart_snippet import TestAddToCartSnippet
-
+from odoo.tests import tagged
 
 @tagged('post_install', '-at_install')
 class OverrideTestAddToCartSnippet(TestAddToCartSnippet):
