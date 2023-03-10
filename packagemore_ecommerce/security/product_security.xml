@@ -5,7 +5,7 @@
             <field name="name">Allow portal users to view non exclusive products and their exclusive products</field>
             <field name="model_id" ref="model_product_template"/>
             <field name="domain_force">['|',('exclusive_customer','=',False),('exclusive_customer.id','=',user.id)]</field> 
-            <field name="groups" eval="[(4, ref('base.group_portal'))]"/>     
+            <field name="groups" eval="[(4, ref('base.group_portal')), (4, ref('base.group_public'))]"/>     
             <field name="perm_read" eval="True"/> 
         </record>
 
