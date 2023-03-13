@@ -3,6 +3,7 @@ from odoo.tests import tagged
 from odoo import http
 from odoo.http import root
 from odoo.addons.packagemore_ecommerce.controllers.main import CheckoutRestrict 
+from odoo.tools import mute_logger
 
 
 @tagged('post_install', '-at_install')
@@ -56,13 +57,15 @@ class TestEcommerce(HttpCaseWithUserPortal):
         #Non portal user should raise access error when trying to checkout
         session = self.authenticate(None, None)
         root.session_store.save(session)
-        res = self.url_open(
-            url = self.base_url() + '/shop/checkout',
-            data= {
-                'csrf_token': http.Request.csrf_token(self),
-            }
-        )
-        self.assertEqual(res.status_code, 403) #403 is HTTP code for access error
+
+        with mute_logger('odoo.http'): #mute 403 warning
+            res = self.url_open(
+                url = self.base_url() + '/shop/checkout',
+                data= {
+                    'csrf_token': http.Request.csrf_token(self),
+                }
+            )
+            self.assertEqual(res.status_code, 403) #403 is HTTP code for access error
 
 
     def test_registered_user(self):
