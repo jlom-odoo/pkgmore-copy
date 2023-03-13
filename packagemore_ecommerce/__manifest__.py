@@ -1,4 +1,3 @@
-
 {
     'name': 'Packagemore Ecommerce',
 
@@ -21,6 +20,8 @@
     'license': 'OPL-1',
     'depends': ['website_sale', 'contacts', 'sale_management'],
     'data': [
+        'security/ir.model.access.csv',
+        'security/product_security.xml',
         'views/product_template_views.xml'
     ],
 }

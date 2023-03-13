@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <data>
+        <record id="portal_user_exclusive_product_read_rights" model="ir.rule">
+            <field name="name">Allow portal users to view non exclusive products and their exclusive products</field>
+            <field name="model_id" ref="model_product_template"/>
+            <field name="domain_force">['|',('exclusive_customer','=',False),('exclusive_customer.id','=',user.id)]</field> 
+            <field name="groups" eval="[(4, ref('base.group_portal')), (4, ref('base.group_public'))]"/>     
+            <field name="perm_read" eval="True"/> 
+        </record>
+
+        <record id="internal_user_exclusive_product_read_rights" model="ir.rule">
+            <field name="name">Allow internal users to view all products</field>
+            <field name="model_id" ref="model_product_template"/>
+            <field name="domain_force">[(1,'=',1)]</field>
+            <field name="groups" eval="[(4, ref('base.group_user'))]"/>
+            <field name="perm_read" eval="True"/>
+        </record>
+
+        <record id="website_sale.product_template_public" model="ir.rule">
+            <!-- Disable the existing rule that gives access -->
+            <field name="domain_force">[(0,'=',1)]</field>
+        </record>
+    </data>
+</odoo>
