@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <data>
-        <record id="product_template_exclusive_customer" model="ir.ui.view">
-            <field name="name">product.template.exclusive_customer</field>
+        <record id="product_template_exclusive_partner" model="ir.ui.view">
+            <field name="name">product.template.exclusive_partner</field>
             <field name="model">product.template</field>
             <field name="inherit_id" ref="product.product_template_only_form_view"/>
             <field name="arch" type="xml">
                 <xpath expr="//field[@name='website_id']" position="after">
-                    <field name="exclusive_customer"/>
+                    <field name="exclusive_partner"/>
                 </xpath>
             </field>
         </record>
