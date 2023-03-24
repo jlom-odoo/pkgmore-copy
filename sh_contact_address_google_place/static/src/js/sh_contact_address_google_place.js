@@ -64,13 +64,22 @@ export class sh_contact_address_google_place_autocomplete_char_field extends Cha
         await this.loadLibs();
     }
 
+    on_map_ready (){
+        console.log('on_map_ready')
+    }
+
     /**
      * Loads the google libraries.
      *
      */
     async loadLibs() {
+        var self = this;
+
+        var URL = "https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=places"
+
+        window.sh_gmap_callback = self.on_map_ready;
         if (this.google_api_key) {
-            var URL = "https://maps.googleapis.com/maps/api/js?v=3&key=" + this.google_api_key + "&sensor=false&libraries=places";
+            var URL = "https://maps.googleapis.com/maps/api/js?v=3&key=" + this.google_api_key + "&libraries=places&callback=sh_gmap_callback";
             this._google_map_ready = await loadJS(URL);
         }
         return false;
@@ -116,7 +125,7 @@ export class sh_contact_address_google_place_autocomplete_char_field extends Cha
                     }
 
                     case "street_number": {
-                        street += component.long_name;
+                        street += component.long_name + ' ' ;
                         break;
                     }
                     case "route": {

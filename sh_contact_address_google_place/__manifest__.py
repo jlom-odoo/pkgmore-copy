@@ -10,7 +10,7 @@
     'license': 'OPL-1',
     'summary': "AutoFill Of Address Google places API Customer Address Auto Fill Based On Google Places Address Autofill Based On Google Places Auto Fill Street Auto Fill PIN Auto Fill Country Contact Address Auto Fill State Company Address Auto Fill Odoo",
     'description': """This module allows to auto fill company address quickly. Once you configure google API key it auto fill address like street number, city, zip code, country & state.""",
-    'version': '16.0.1',
+    'version': '16.0.2',
     'depends': ['contacts'],
     'application': True,
     'data': [
