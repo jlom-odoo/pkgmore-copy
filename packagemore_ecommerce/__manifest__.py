@@ -8,7 +8,7 @@
     Written by: jden
 
     Only portal users are able to reach checkout.
-    Products now have an extra field "exclusive_customer". If this field is set, only that customer will
+    Products now have an extra field "exclusive_partner". If this field is set, only that customer will
     be able to view that product in the shop.
     """,
 
