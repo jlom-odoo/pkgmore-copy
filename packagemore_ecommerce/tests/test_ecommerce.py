@@ -109,6 +109,7 @@ class TestEcommerce(HttpCaseWithUserPortal):
                 'csrf_token': http.Request.csrf_token(self),
             }
         )
+
         self.assertEqual(res.status_code, 200, 'Portal user should able to reach checkout') #200 is HTTP code for OK
 
 
@@ -126,4 +127,5 @@ class TestEcommerce(HttpCaseWithUserPortal):
         self.assertFalse(self.other_company_product in search_results, 'User should not be able to view product exclusive to another company')
 
         self.assertFalse(self.other_partner_product in search_results, 'User should not be able to view product exclusive to another partner, even within the same company')
+
     
