@@ -17,7 +17,7 @@
 
     'author': 'Azkob',
     'category': 'Website',
-    'version': '1.0',
+    'version': '1.1',
     'website': 'https://www.azkob.com/',
     # any module necessary for this one to work correctly
     'depends': ['website_sale_stock', 'sale_management'],
@@ -36,12 +36,12 @@
     # only loaded in demonstration mode
     'demo': [
     ],
-    'images': [
-        'static/description/banner.jpg',
-    ],
     'installable': True,
     'application': True,
     'price': 55,
     'currency': 'EUR',
+    'images': [
+        'static/description/banner.jpg',
+    ],
     'live_test_url': "https://youtu.be/eMXeZWETqlM",
 }
