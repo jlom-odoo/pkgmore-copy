@@ -12,11 +12,11 @@
     be able to view that product in the shop.
     """,
 
-    'author': 'Odoo',
+    'author': 'Odoo, Inc',
     'website': 'https://www.odoo.com/',
 
     'category': 'Custom Development',
-    'version': '1.0',
+    'version': '1.0.1',
     'license': 'OPL-1',
     'depends': ['website_sale', 'contacts', 'sale_management'],
     'data': [
