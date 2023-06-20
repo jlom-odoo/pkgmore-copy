@@ -12,7 +12,8 @@
                         ('exclusive_partner.id','=',user.partner_id.id),
                     '&amp;',
                         ('exclusive_partner.is_company','=',True),
-                        ('exclusive_partner.id','=',user.partner_id.parent_id.id)
+                        ('exclusive_partner.id','=',user.partner_id.parent_id.id),
+                        ('website_published', '=', True)
             ]</field> 
             <field name="groups" eval="[(4, ref('base.group_portal')), (4, ref('base.group_public'))]"/>     
             <field name="perm_read" eval="True"/> 
