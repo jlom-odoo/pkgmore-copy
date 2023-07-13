@@ -26,7 +26,7 @@
                 <t t-call="portal.portal_searchbar">
                     <t t-set="title">Pricelist Download</t>
                 </t>
-                <div class="container">
+                <div class="container" id="pricelist_portal_download">
                     <div class="row justify-content-center">
                         <div class="col-md-6">
                             <div class="card " styles="width: 18rem;">
@@ -38,7 +38,7 @@
                                         to your pricelist
                                     </h6>
                                     <div class="card-text my-3">
-                                        <form action="/customer/pricelist" method="POST">
+                                        <form action="/customer/pricelist" method="POST" id="pricelist_download">
                                             <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
                                             <div class="form-group">
                                                 <label for="pricelist_file_type">File Type</label>

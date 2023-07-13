@@ -56,7 +56,7 @@ class ResPartner(models.Model):
                     domain = []
                     if ecom_category:
                         domain.append(("public_categ_ids.id", "in", ecom_category))
-                    product_variant_ids = self.env["product.product"].search([])
+                    product_variant_ids = self.env["product.product"].search(domain)
                     for product_id in product_variant_ids:
                         rule_data = self.get_price_rule_data(pricelist_id, rule, product_id)
                         pricelist_products.append(rule_data)
@@ -100,7 +100,7 @@ class ResPartner(models.Model):
             # else:
             # if base option is public price take sale price else cost price of product
             # price_compute returns the price in the context UoM, i.e. qty_uom_id
-            # price = product_id.price_compute(rule.base)[product_id.id]
+            price = product_id.price_compute(rule.base)[product_id.id]
         price_uom = product_id.uom_id
         # if price is not False:
         #     price = rule._compute_price(price, price_uom, product_id, quantity=rule.min_quantity or 1,partner=self)
@@ -112,27 +112,15 @@ class ResPartner(models.Model):
         #     else:
         #         cur = product_id.currency_id
         #     price = cur._convert(price, pricelist_id.currency_id, self.env.company, date, round=False)
-        # website = self.env['website'].get_current_website()
-        # qty = product_id.with_context(warehouse=website._get_warehouse_available()).free_qty
-        # if qty < 0:
-        #     qty = 0
-        price = self.format_currency_amount(price, self.property_product_pricelist.currency_id)
+        website = self.env['website'].get_current_website()
+        qty = product_id.with_context(warehouse=website._get_warehouse_available()).free_qty
+        if qty < 0:
+            qty = 0
         return {
             "product_id": product_id,
             "min_qty": min_quantity,
             "price_duration": price_duration,
             "price": price,
-            # "show_product_stock": self.show_product_stock,
-            # "stock_on_hand": qty
+            "show_product_stock": self.show_product_stock,
+            "stock_on_hand": qty
         }
-
-    def format_currency_amount(self, amount, currency_id):
-        fmt = "%.{0}f".format(3)
-        lang = self.env['ir.qweb.field'].user_lang()
-
-        formatted_amount = lang.format(fmt, currency_id.round(amount),
-                                       grouping=True, monetary=True).replace(r' ', u'\N{NO-BREAK SPACE}').replace(r'-',
-                                                                                                                  u'-\N{ZERO WIDTH NO-BREAK SPACE}')
-        pre = currency_id.position == 'before'
-        symbol = u'{symbol}'.format(symbol=currency_id.symbol or '')
-        return u'{pre}{0}{post}'.format(formatted_amount, pre=symbol if pre else '', post=symbol if not pre else '')
