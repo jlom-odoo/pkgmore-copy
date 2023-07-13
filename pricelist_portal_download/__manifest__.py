@@ -17,7 +17,7 @@
 
     'author': 'Azkob',
     'category': 'Website',
-    'version': '1.1',
+    'version': '1.2',
     'website': 'https://www.azkob.com/',
     # any module necessary for this one to work correctly
     'depends': ['website_sale_stock', 'sale_management'],
@@ -31,6 +31,7 @@
     'assets': {
         'web.assets_frontend': [
             'pricelist_portal_download/static/src/js/portal.js',
+            'pricelist_portal_download/static/src/js/pricelist_download.js',
         ],
     },
     # only loaded in demonstration mode
@@ -39,9 +40,6 @@
     'installable': True,
     'application': True,
     'price': 55,
-    'currency': 'EUR',
-    'images': [
-        'static/description/banner.jpg',
-    ],
+    'currency': 'USD',
     'live_test_url': "https://youtu.be/eMXeZWETqlM",
 }
