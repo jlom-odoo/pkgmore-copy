@@ -1,0 +1,23 @@
+<odoo>
+    <data>
+    <template id="product_price_inehrit_package_more" inherit_id="website_sale.product_price">
+        <xpath expr="//div[@id='product_unavailable']/h3" position="replace">
+            <t t-set="curr_prilst" t-value="website.pricelist_id"/>
+            <t t-set="lines" t-value="curr_prilst.item_ids.filtered(lambda line: line.product_tmpl_id == product)"/>
+            <t t-if="lines">
+                <div>
+                    <h5 class="fst-italic">Please contact us, no price for 1 unit</h5>
+                    <div>Available prices are</div>
+                    <t t-foreach="lines" t-as="line">
+                        <div>$<span t-esc="line.fixed_price"/> per unit for a minimum quantity of <span t-esc="line.min_quantity"/></div>
+                    </t>
+                    <br/>
+                </div>
+            </t>
+            <t t-else="">
+                <h3 class="fst-italic" t-field="website.prevent_zero_price_sale_text"/>
+            </t>
+        </xpath>
+    </template>
+    </data>
+</odoo>

@@ -13,6 +13,7 @@
     "version": "1.0",
     "depends": [],
     "data": [
+        "views/website_sale_templates.xml"
     ],
     "license": "OPL-1",
 }
