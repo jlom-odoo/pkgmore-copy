@@ -11,14 +11,14 @@
     "website": "https://www.odoo.com",
     "category": "Custom Development",
     "version": "1.0",
-    "depends": [],
+    "depends": ["website_sale"],
     "data": [
         "views/website_sale_templates.xml"
     ],
-    'assets': {
-        'web.assets_frontend': [
-            'packagemore_ecommerce_pricelists/static/src/scss/package_more_website.scss',
-            'packagemore_ecommerce_pricelists/static/src/js/website_sale.js',
+    "assets": {
+        "web.assets_frontend": [
+            "packagemore_ecommerce_pricelists/static/src/scss/package_more_website.scss",
+            "packagemore_ecommerce_pricelists/static/src/js/website_sale.js",
         ]
     },
     "license": "OPL-1",
