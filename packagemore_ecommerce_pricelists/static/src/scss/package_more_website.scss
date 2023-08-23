@@ -1,0 +1,12 @@
+.css_quantity_packmo {
+    width: initial;
+
+    .btn, input {
+        border-color: $input-border-color;
+    }
+
+    input {
+        height: auto !important;
+        max-width: 5ch;
+    }
+}
