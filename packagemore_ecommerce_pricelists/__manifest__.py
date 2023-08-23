@@ -15,5 +15,11 @@
     "data": [
         "views/website_sale_templates.xml"
     ],
+    'assets': {
+        'web.assets_frontend': [
+            'packagemore_ecommerce_pricelists/static/src/scss/package_more_website.scss',
+            'packagemore_ecommerce_pricelists/static/src/js/website_sale.js',
+        ]
+    },
     "license": "OPL-1",
 }
