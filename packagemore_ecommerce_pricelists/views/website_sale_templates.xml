@@ -21,7 +21,7 @@
                         <i class="fa fa-plus"></i>
                     </a>
                 </div>
-                <div id="add_to_cart_wrap_2" t-attf-class="{{'d-flex' if combination_info else 'd-none'}} align-items-center mb-2 me-auto">
+                <div id="add_to_cart_wrap_2" t-if="len(lines) > 0 or combination_info['price'] > 0.0" t-attf-class="{{'d-flex' if combination_info else 'd-none'}} align-items-center mb-2 me-auto">
                     <a data-animation-selector=".o_wsale_product_images" role="button" id="add_to_cart" t-attf-class="btn btn-primary js_check_product a-submit flex-grow-1 #{'btn-lg' if ctaSizeBig else ''}" href="#">
                         <i class="fa fa-shopping-cart me-2"/>
                         <span style="font-weight: bold">ADD TO CART</span>
