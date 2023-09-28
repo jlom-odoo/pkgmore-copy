@@ -21,12 +21,12 @@
                             <thead>
                                 <tr>
                                     <th>Internal Ref.</th>
-                                    <th>Barcode</th>
+                                    <th t-if="show_barcode_in_pricelist">Barcode</th>
                                     <th class="text-center">Product Name</th>
                                     <th class="text-center">Min. Quantity</th>
                                     <th class="text-center">Price Duration</th>
                                     <th class="text-end">Price</th>
-                                    <th class="text-center">On Hand Qty.</th>
+                                    <th t-if="show_stock_in_pricelist" class="text-center">On Hand Qty.</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -35,7 +35,7 @@
                                         <td>
                                             <t t-esc="pricelist_product['product_id'].default_code"/>
                                         </td>
-                                        <td>
+                                        <td t-if="show_barcode_in_pricelist">
                                             <t t-esc="pricelist_product['product_id'].barcode"/>
                                         </td>
                                         <td>
@@ -55,7 +55,7 @@
                                             <t t-esc="pricelist_product['price']"
                                                t-options='{"widget": "monetary", "display_currency": currency_id}'/>
                                         </td>
-                                        <td class="text-center">
+                                        <td class="text-center" t-if="show_stock_in_pricelist">
                                             <t t-if="pricelist_product['show_product_stock']">
                                                  <t t-esc="pricelist_product['stock_on_hand']"
                                                t-options='{"widget": "float", "decimal_precision": "Product Unit of Measure"}'/>

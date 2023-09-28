@@ -124,3 +124,12 @@ class ResPartner(models.Model):
             "show_product_stock": self.show_product_stock,
             "stock_on_hand": qty
         }
+
+
+class ResConfigSettings(models.TransientModel):
+    _inherit = 'res.config.settings'
+
+    show_barcode_in_pricelist = fields.Boolean(string="Show Barcode Col. in Pricelist Report",
+                                               config_parameter='pricelist_portal_download.show_barcode_in_pricelist')
+    show_stock_in_pricelist = fields.Boolean(string="Show Stock Col. in Pricelist Report",
+                                             config_parameter='pricelist_portal_download.show_stock_in_pricelist')

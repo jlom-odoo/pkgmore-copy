@@ -44,6 +44,11 @@ class CustomerPortalEx(CustomerPortal):
             pricelist_file_type = post.get("pricelist_file_type")
             pricelist_product_categ = post.get("pricelist_product_categ")
             values_to_render = {'report_type': 'pdf'}
+            ICP = request.env['ir.config_parameter'].sudo().get_param
+            show_barcode_in_pricelist = ICP("pricelist_portal_download.show_barcode_in_pricelist")
+            show_stock_in_pricelist = ICP("pricelist_portal_download.show_stock_in_pricelist")
+            values_to_render.update({"show_stock_in_pricelist": show_stock_in_pricelist,
+                                     "show_barcode_in_pricelist": show_barcode_in_pricelist})
             if pricelist_product_categ:
                 e_com_categ = request.env["product.public.category"].browse(int(pricelist_product_categ))
                 e_com_categ_self_child = e_com_categ + e_com_categ.child_id
@@ -96,39 +101,62 @@ class CustomerPortalEx(CustomerPortal):
         for i in range(7):
             worksheet.set_column(0, i, 20)
         if values_to_render.get("pricelist_products"):
-            worksheet.merge_range(0, 0, 1, 6, "Product Pricelist", head_format_center)
-            worksheet.write(2, 6, "Date: " + values_to_render["current_date"], head_format_left)
+            col_ = 4
+            if values_to_render.get("show_stock_in_pricelist"):
+                col_ += 1
+            if values_to_render.get("show_barcode_in_pricelist"):
+                col_ += 1
+            worksheet.merge_range(0, 0, 1, col_, "Product Pricelist", head_format_center)
+            worksheet.write(2, col_, "Date: " + values_to_render["current_date"], head_format_left)
 
             if values_to_render.get("e_com_categ"):
                 worksheet.write(2, 0, "Product Category: " + values_to_render["e_com_categ"].name, head_format_left)
             worksheet.set_column('E:F', 30)
             worksheet.set_column('C:C', 40)
-
-            worksheet.write('A5', 'Internal Ref.', head_format)
-            worksheet.write('B5', 'Barcode', head_format)
-            worksheet.write('C5', 'Product Name', head_format)
-            worksheet.write('D5', 'Min. Quantity', head_format)
-            worksheet.write('E5', 'Price Duration', head_format)
-            worksheet.write('F5', 'Price', head_format)
-            worksheet.write('G5', 'On Hand Qty.', head_format)
+            h_col = 0
+            worksheet.write(4, h_col, 'Internal Ref.', head_format)
+            h_col += 1
+            if values_to_render.get("show_barcode_in_pricelist"):
+                worksheet.write(4, h_col, 'Barcode', head_format)
+                h_col += 1
+            worksheet.write(4, h_col, 'Product Name', head_format)
+            h_col += 1
+            worksheet.write(4, h_col, 'Min. Quantity', head_format)
+            h_col += 1
+            worksheet.write(4, h_col, 'Price Duration', head_format)
+            h_col += 1
+            worksheet.write(4, h_col, 'Price', head_format)
+            h_col += 1
+            print("h_col", h_col)
+            if values_to_render.get("show_stock_in_pricelist"):
+                worksheet.write(4, h_col, 'On Hand Qty.', head_format)
 
             for pricelist_product in values_to_render.get("pricelist_products"):
-                worksheet.write(table_row, 0, pricelist_product['product_id'].default_code or "")
-                worksheet.write(table_row, 1, pricelist_product['product_id'].barcode or "")
-                worksheet.write(table_row, 2,
+                r_col = 0
+                worksheet.write(table_row, r_col, pricelist_product['product_id'].default_code or "")
+                r_col += 1
+                if values_to_render.get("show_barcode_in_pricelist"):
+                    worksheet.write(table_row, r_col, pricelist_product['product_id'].barcode or "")
+                    r_col += 1
+                worksheet.write(table_row, r_col,
                                 pricelist_product['product_id'].with_context(display_default_code=False).display_name)
-                worksheet.write(table_row, 3, pricelist_product['min_qty'] or "-", format_center)
-                worksheet.write(table_row, 4, pricelist_product['price_duration'], format_center)
-                worksheet.write(table_row, 5, self.format_currency_amount(pricelist_product['price'],
-                                                                          values_to_render.get("currency_id")),
+                r_col += 1
+                worksheet.write(table_row, r_col, pricelist_product['min_qty'] or "-", format_center)
+                r_col += 1
+                worksheet.write(table_row, r_col, pricelist_product['price_duration'], format_center)
+                r_col += 1
+                worksheet.write(table_row, r_col, self.format_currency_amount(pricelist_product['price'],
+                                                                              values_to_render.get("currency_id")),
                                 format_right)
-                if pricelist_product['show_product_stock']:
-                    worksheet.write(table_row, 6, pricelist_product['stock_on_hand'], format_center)
-                else:
-                    if pricelist_product['stock_on_hand'] > 0:
-                        worksheet.write(table_row, 6, "In Stock", format_center)
+                r_col += 1
+                if values_to_render.get("show_stock_in_pricelist"):
+                    if pricelist_product['show_product_stock']:
+                        worksheet.write(table_row, r_col, pricelist_product['stock_on_hand'], format_center)
                     else:
-                        worksheet.write(table_row, 6, "Out Of Stock", format_center)
+                        if pricelist_product['stock_on_hand'] > 0:
+                            worksheet.write(table_row, r_col, "In Stock", format_center)
+                        else:
+                            worksheet.write(table_row, r_col, "Out Of Stock", format_center)
 
                 table_row += 1
         else:
