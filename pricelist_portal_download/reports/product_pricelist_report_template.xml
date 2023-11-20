@@ -52,8 +52,7 @@
                                             <t t-esc="pricelist_product['price_duration']"/>
                                         </td>
                                         <td class="text-end">
-                                            <t t-esc="pricelist_product['price']"
-                                               t-options='{"widget": "monetary", "display_currency": currency_id}'/>
+                                            <t t-esc="pricelist_product['price']"/>
                                         </td>
                                         <td class="text-center" t-if="show_stock_in_pricelist">
                                             <t t-if="pricelist_product['show_product_stock']">

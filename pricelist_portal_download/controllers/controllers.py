@@ -145,9 +145,7 @@ class CustomerPortalEx(CustomerPortal):
                 r_col += 1
                 worksheet.write(table_row, r_col, pricelist_product['price_duration'], format_center)
                 r_col += 1
-                worksheet.write(table_row, r_col, self.format_currency_amount(pricelist_product['price'],
-                                                                              values_to_render.get("currency_id")),
-                                format_right)
+                worksheet.write(table_row, r_col, pricelist_product['price'], format_right)
                 r_col += 1
                 if values_to_render.get("show_stock_in_pricelist"):
                     if pricelist_product['show_product_stock']:
@@ -166,13 +164,13 @@ class CustomerPortalEx(CustomerPortal):
         output = base64.encodebytes(target_stream.read())
         return output
 
-    def format_currency_amount(self, amount, currency_id):
-        fmt = "%.{0}f".format(currency_id.decimal_places)
-        lang = request.env['ir.qweb.field'].user_lang()
-
-        formatted_amount = lang.format(fmt, currency_id.round(amount),
-                                       grouping=True, monetary=True).replace(r' ', u'\N{NO-BREAK SPACE}').replace(r'-',
-                                                                                                                  u'-\N{ZERO WIDTH NO-BREAK SPACE}')
-        pre = currency_id.position == 'before'
-        symbol = u'{symbol}'.format(symbol=currency_id.symbol or '')
-        return u'{pre}{0}{post}'.format(formatted_amount, pre=symbol if pre else '', post=symbol if not pre else '')
+    # def format_currency_amount(self, amount, currency_id):
+    #     fmt = "%.{0}f".format(3)
+    #     lang = request.env['ir.qweb.field'].user_lang()
+    #
+    #     formatted_amount = lang.format(fmt, currency_id.round(amount),
+    #                                    grouping=True, monetary=True).replace(r' ', u'\N{NO-BREAK SPACE}').replace(r'-',
+    #                                                                                                               u'-\N{ZERO WIDTH NO-BREAK SPACE}')
+    #     pre = currency_id.position == 'before'
+    #     symbol = u'{symbol}'.format(symbol=currency_id.symbol or '')
+    #     return u'{pre}{0}{post}'.format(formatted_amount, pre=symbol if pre else '', post=symbol if not pre else '')
