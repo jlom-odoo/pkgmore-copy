@@ -8,8 +8,8 @@
                 '|','|',
                     ('exclusive_partner','=',False),
                     ('exclusive_partner.id','=',user.partner_id.id),
-                    '&amp;', '&amp;',
-                        ('website_published', '=', True),
+                    '&amp;','&amp;',
+                        ('website_published','=',True),
                         ('exclusive_partner.is_company','=',True),
                         ('exclusive_partner.id','=',user.partner_id.parent_id.id),
             ]</field> 
