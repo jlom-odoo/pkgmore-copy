@@ -7,11 +7,11 @@
             <field name="domain_force">[
                 '|','|',
                     ('exclusive_partner','=',False),
-                    ('exclusive_partner.id','=',user.partner_id.id),
+                    ('exclusive_partner','=',user.partner_id.id),
                     '&amp;','&amp;',
                         ('website_published','=',True),
                         ('exclusive_partner.is_company','=',True),
-                        ('exclusive_partner.id','=',user.partner_id.parent_id.id),
+                        ('exclusive_partner','=',user.partner_id.commercial_partner_id.id),
             ]</field> 
             <field name="groups" eval="[(4, ref('base.group_portal')), (4, ref('base.group_public'))]"/>     
             <field name="perm_read" eval="True"/> 
