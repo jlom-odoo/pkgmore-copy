@@ -8,6 +8,17 @@ odoo.define('packagemore_ecommerce_pricelists.website_sale_inherit', function (r
         /**
          * @override
          */
+        start: function () {
+            this._super.apply(this, arguments);
+            var $qty = $('input[name="add_qty"]');
+            var $min_qty = $('input[name="qty-input"]');
+            $qty.val(
+                $min_qty.val());
+        },
+        
+        /**
+         * @override
+         */
 
         _onChangeCombination: function (ev, $parent, combination) {
             this._super.apply(this, arguments);
