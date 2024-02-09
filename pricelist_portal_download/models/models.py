@@ -100,12 +100,13 @@ class ResPartner(models.Model):
             # else:
             # if base option is public price take sale price else cost price of product
             # price_compute returns the price in the context UoM, i.e. qty_uom_id
-            price = product_id.price_compute(rule.base)[product_id.id]
+            # price = product_id.price_compute(rule.base)[product_id.id]
         price_uom = product_id.uom_id
         # if price is not False:
         #     price = rule._compute_price(price, price_uom, product_id, quantity=rule.min_quantity or 1,partner=self)
         price = rule._compute_price(product_id, quantity=rule.min_quantity or 1, uom=price_uom, date=date)
-
+        price = self.format_currency_amount(price,
+                                    pricelist_id.currency_id)
         # if rule.compute_price != 'fixed' and rule.base != 'pricelist':
         #     if rule.base == 'standard_price':
         #         cur = product_id.cost_currency_id
@@ -124,3 +125,23 @@ class ResPartner(models.Model):
             "show_product_stock": self.show_product_stock,
             "stock_on_hand": qty
         }
+
+    def format_currency_amount(self, amount, currency_id):
+        fmt = "%.{0}f".format(3)
+        lang = self.env['ir.qweb.field'].user_lang()
+
+        formatted_amount = lang.format(fmt, currency_id.round(amount),
+                                       grouping=True, monetary=True).replace(r' ', u'\N{NO-BREAK SPACE}').replace(r'-',
+                                                                                                                  u'-\N{ZERO WIDTH NO-BREAK SPACE}')
+        pre = currency_id.position == 'before'
+        symbol = u'{symbol}'.format(symbol=currency_id.symbol or '')
+        return u'{pre}{0}{post}'.format(formatted_amount, pre=symbol if pre else '', post=symbol if not pre else '')
+
+
+class ResConfigSettings(models.TransientModel):
+    _inherit = 'res.config.settings'
+
+    show_barcode_in_pricelist = fields.Boolean(string="Show Barcode Col. in Pricelist Report",
+                                               config_parameter='pricelist_portal_download.show_barcode_in_pricelist')
+    show_stock_in_pricelist = fields.Boolean(string="Show Stock Col. in Pricelist Report",
+                                             config_parameter='pricelist_portal_download.show_stock_in_pricelist')

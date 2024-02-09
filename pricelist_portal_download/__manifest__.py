@@ -17,7 +17,7 @@
 
     'author': 'Azkob',
     'category': 'Website',
-    'version': '1.2',
+    'version': '1.4',
     'website': 'https://www.azkob.com/',
     # any module necessary for this one to work correctly
     'depends': ['website_sale_stock', 'sale_management'],
