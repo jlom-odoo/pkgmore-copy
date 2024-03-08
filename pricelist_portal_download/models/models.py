@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-
 from odoo import models, fields, api
 from odoo.tools import float_round, format_date, get_lang
 
@@ -40,18 +39,15 @@ class ResPartner(models.Model):
                     for product_id in product_variant_ids:
                         rule_data = self.get_price_rule_data(pricelist_id, rule, product_id)
                         pricelist_products.append(rule_data)
-
                 elif rule.applied_on == "2_product_category":
                     categ_id = rule.categ_id
                     domain = [("categ_id", "child_of", categ_id.id)]
                     if ecom_category:
                         domain.append(("public_categ_ids.id", "in", ecom_category))
-
                     product_variant_ids = self.env["product.product"].search(domain)
                     for product_id in product_variant_ids:
                         rule_data = self.get_price_rule_data(pricelist_id, rule, product_id)
                         pricelist_products.append(rule_data)
-
                 elif rule.applied_on == "3_global":
                     domain = []
                     if ecom_category:
@@ -60,7 +56,6 @@ class ResPartner(models.Model):
                     for product_id in product_variant_ids:
                         rule_data = self.get_price_rule_data(pricelist_id, rule, product_id)
                         pricelist_products.append(rule_data)
-
         pricelist_products = sorted(pricelist_products, key=lambda item: item['product_id'].with_context(
             display_default_code=False).display_name)
         return pricelist_products
@@ -72,67 +67,31 @@ class ResPartner(models.Model):
         if rule.min_quantity:
             min_quantity = float_round(rule.min_quantity, precision_rounding=precision)
         if rule.date_start and rule.date_end:
-            price_duration = format_date(self.env, rule.date_start,
-                                         lang_code=get_lang(self.env).code) + " - "
-            price_duration += format_date(self.env, rule.date_end,
-                                          lang_code=get_lang(self.env).code)
+            price_duration = format_date(self.env, rule.date_start, lang_code=get_lang(self.env).code) + " - "
+            price_duration += format_date(self.env, rule.date_end, lang_code=get_lang(self.env).code)
         else:
             if rule.date_start:
-                price_duration = format_date(self.env, rule.date_start,
-                                             lang_code=get_lang(self.env).code)
+                price_duration = format_date(self.env, rule.date_start, lang_code=get_lang(self.env).code)
             if rule.date_end:
-                price_duration = format_date(self.env, rule.date_end,
-                                             lang_code=get_lang(self.env).code)
+                price_duration = format_date(self.env, rule.date_end, lang_code=get_lang(self.env).code)
         if rule.date_start:
             date = rule.date_start
         else:
             date = self._context.get('date') or fields.Date.today()
             date = fields.Date.to_date(date)
-            # date = False
-            # uom_id = False
-            # if rule.base == 'pricelist' and rule.base_pricelist_id:
-            #     price_tmp = \
-            #         rule.base_pricelist_id._compute_price_rule([(product_id, rule.min_quantity or 1, self)],
-            #                                                    date, uom_id)[product_id.id][
-            #             0]  # TDE: 0 = price, 1 = rule
-            #     price = rule.base_pricelist_id.currency_id._convert(price_tmp, pricelist_id.currency_id,
-            #                                                         self.env.company, date, round=False)
-            # else:
-            # if base option is public price take sale price else cost price of product
-            # price_compute returns the price in the context UoM, i.e. qty_uom_id
-            # price = product_id.price_compute(rule.base)[product_id.id]
         price_uom = product_id.uom_id
-        # if price is not False:
-        #     price = rule._compute_price(price, price_uom, product_id, quantity=rule.min_quantity or 1,partner=self)
         price = rule._compute_price(product_id, quantity=rule.min_quantity or 1, uom=price_uom, date=date)
-        price = self.format_currency_amount(price,
-                                    pricelist_id.currency_id)
-        # if rule.compute_price != 'fixed' and rule.base != 'pricelist':
-        #     if rule.base == 'standard_price':
-        #         cur = product_id.cost_currency_id
-        #     else:
-        #         cur = product_id.currency_id
-        #     price = cur._convert(price, pricelist_id.currency_id, self.env.company, date, round=False)
+        price = self.format_currency_amount(price, pricelist_id.currency_id)
         website = self.env['website'].get_current_website()
         qty = product_id.with_context(warehouse=website._get_warehouse_available()).free_qty
         if qty < 0:
             qty = 0
-        return {
-            "product_id": product_id,
-            "min_qty": min_quantity,
-            "price_duration": price_duration,
-            "price": price,
-            "show_product_stock": self.show_product_stock,
-            "stock_on_hand": qty
-        }
+        return {"product_id": product_id, "min_qty": min_quantity, "price_duration": price_duration, "price": price, "show_product_stock": self.show_product_stock, "stock_on_hand": qty}
 
     def format_currency_amount(self, amount, currency_id):
         fmt = "%.{0}f".format(3)
         lang = self.env['ir.qweb.field'].user_lang()
-
-        formatted_amount = lang.format(fmt, currency_id.round(amount),
-                                       grouping=True, monetary=True).replace(r' ', u'\N{NO-BREAK SPACE}').replace(r'-',
-                                                                                                                  u'-\N{ZERO WIDTH NO-BREAK SPACE}')
+        formatted_amount = lang.format(fmt, currency_id.round(amount), grouping=True, monetary=True).replace(r' ', u'\N{NO-BREAK SPACE}').replace(r'-', u'-\N{ZERO WIDTH NO-BREAK SPACE}')
         pre = currency_id.position == 'before'
         symbol = u'{symbol}'.format(symbol=currency_id.symbol or '')
         return u'{pre}{0}{post}'.format(formatted_amount, pre=symbol if pre else '', post=symbol if not pre else '')
@@ -141,7 +100,5 @@ class ResPartner(models.Model):
 class ResConfigSettings(models.TransientModel):
     _inherit = 'res.config.settings'
 
-    show_barcode_in_pricelist = fields.Boolean(string="Show Barcode Col. in Pricelist Report",
-                                               config_parameter='pricelist_portal_download.show_barcode_in_pricelist')
-    show_stock_in_pricelist = fields.Boolean(string="Show Stock Col. in Pricelist Report",
-                                             config_parameter='pricelist_portal_download.show_stock_in_pricelist')
+    show_barcode_in_pricelist = fields.Boolean(string="Show Barcode Col. in Pricelist Report", config_parameter='pricelist_portal_download.show_barcode_in_pricelist')
+    show_stock_in_pricelist = fields.Boolean(string="Show Stock Col. in Pricelist Report", config_parameter='pricelist_portal_download.show_stock_in_pricelist')

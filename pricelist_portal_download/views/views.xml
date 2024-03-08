@@ -27,9 +27,7 @@
                         </div>
                         <div class="o_setting_right_pane">
                             <label for="show_barcode_in_pricelist"/>
-                            <div class="text-muted">
-                                Show Barcode Col. in Portal Pricelist Download
-                            </div>
+                            <div class="text-muted">Show Barcode Col. in Portal Pricelist Download</div>
                         </div>
                     </div>
                     <div class="col-12 col-lg-6 o_setting_box"
@@ -39,14 +37,11 @@
                         </div>
                         <div class="o_setting_right_pane">
                             <label for="show_stock_in_pricelist"/>
-                            <div class="text-muted">
-                                Show Stock Col. in Portal Pricelist Download
-                            </div>
+                            <div class="text-muted">Show Stock Col. in Portal Pricelist Download</div>
                         </div>
                     </div>
                 </xpath>
             </field>
         </record>
     </data>
-
 </odoo>

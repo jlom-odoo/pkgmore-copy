@@ -7,16 +7,9 @@
                     <t t-set="doc" t-value="docs.with_context(lang=docs.lang)"/>
                     <div class="page" t-if="pricelist_products">
                         <h2 class="text-center">Product Pricelist</h2>
-
-                        <h5 t-if="e_com_categ">
-                            Product Category:
-                            <b t-esc="e_com_categ.name"/>
-                        </h5>
-                        <span class="float-right">Date:
-                            <b t-esc="current_date"/>
-                        </span>
+                        <h5 t-if="e_com_categ">Product Category:<b t-esc="e_com_categ.name"/></h5>
+                        <span class="float-right">Date:<b t-esc="current_date"/></span>
                         <div class="clearfix"/>
-
                         <table class="table table-sm">
                             <thead>
                                 <tr>
@@ -32,51 +25,30 @@
                             <tbody>
                                 <t t-foreach="pricelist_products" t-as="pricelist_product">
                                     <tr>
-                                        <td>
-                                            <t t-esc="pricelist_product['product_id'].default_code"/>
-                                        </td>
-                                        <td t-if="show_barcode_in_pricelist">
-                                            <t t-esc="pricelist_product['product_id'].barcode"/>
-                                        </td>
-                                        <td>
-                                            <t t-esc="pricelist_product['product_id'].with_context(display_default_code=False).display_name"/>
-                                        </td>
+                                        <td><t t-esc="pricelist_product['product_id'].default_code"/></td>
+                                        <td t-if="show_barcode_in_pricelist"><t t-esc="pricelist_product['product_id'].barcode"/></td>
+                                        <td><t t-esc="pricelist_product['product_id'].with_context(display_default_code=False).display_name"/></td>
                                         <td class="text-center">
-                                            <t t-if="pricelist_product['min_qty']" t-esc="pricelist_product['min_qty']"
-                                               t-options='{"widget": "float", "decimal_precision": "Product Unit of Measure"}'/>
-                                            <t t-else="">
-                                                -
-                                            </t>
+                                            <t t-if="pricelist_product['min_qty']" t-esc="pricelist_product['min_qty']" t-options='{"widget": "float", "decimal_precision": "Product Unit of Measure"}'/>
+                                            <t t-else=""> - </t>
                                         </td>
-                                        <td class="text-center">
-                                            <t t-esc="pricelist_product['price_duration']"/>
-                                        </td>
-                                        <td class="text-end">
-                                            <t t-esc="pricelist_product['price']"/>
-                                        </td>
+                                        <td class="text-center"><t t-esc="pricelist_product['price_duration']"/></td>
+                                        <td class="text-end"><t t-esc="pricelist_product['price']"/></td>
                                         <td class="text-center" t-if="show_stock_in_pricelist">
                                             <t t-if="pricelist_product['show_product_stock']">
-                                                 <t t-esc="pricelist_product['stock_on_hand']"
-                                               t-options='{"widget": "float", "decimal_precision": "Product Unit of Measure"}'/>
+                                                 <t t-esc="pricelist_product['stock_on_hand']" t-options='{"widget": "float", "decimal_precision": "Product Unit of Measure"}'/>
                                             </t>
                                             <t t-else="">
-                                                <t t-if="pricelist_product['stock_on_hand'] > 0">
-                                                    In Stock
-                                                </t>
-                                                <t t-else="">
-                                                    Out Of Stock
-                                                </t>
+                                                <t t-if="pricelist_product['stock_on_hand'] > 0">In Stock</t>
+                                                <t t-else="">Out Of Stock</t>
                                             </t>
-
                                         </td>
                                     </tr>
                                 </t>
                             </tbody>
                         </table>
                     </div>
-                    <div t-else="">
-                        <span>You do not have any products in the pricelist!</span>
-                    </div>
+                    <div t-else=""><span>You do not have any products in the pricelist!</span></div>
                 </t>
             </t>
         </template>
@@ -97,7 +69,6 @@
             <field name="dpi">90</field>
         </record>
 
-
         <record id="product_pricelist_action_report" model="ir.actions.report">
             <field name="name">Pricelist Print Action</field>
             <field name="model">res.partner</field>
@@ -108,6 +79,5 @@
             <field name="binding_type">report</field>
             <field name="paperformat_id" ref="pricelist_portal_download.paperformat_pricelist_print"/>
         </record>
-
     </data>
 </odoo>
