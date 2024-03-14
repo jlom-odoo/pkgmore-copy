@@ -39,7 +39,7 @@
         <t t-if="lines">
             <div>
                 <t t-foreach="lines" t-as="line">
-                    <div>$<span t-esc="line.fixed_price"/> per unit for a minimum quantity of <span t-esc="line.min_quantity"/></div>
+                    <div>$<span t-esc="line.fixed_price"/> per unit for a minimum quantity of <span t-esc="int(line.min_quantity)"/></div>
                 </t>
                 <br/>
             </div>
