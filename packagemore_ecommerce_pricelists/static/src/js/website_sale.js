@@ -26,7 +26,7 @@ odoo.define('packagemore_ecommerce_pricelists.website_sale_inherit', function (r
             var $min_qty = $('input[name="qty-input"]');
 
             const addToCart = $parent.find('#add_to_cart_wrap_2');
-            if ($qty.val() < $min_qty.val()) {
+            if (parseInt($qty.val()) < parseInt($min_qty.val())) {
                 addToCart.removeClass('d-inline-flex').addClass('d-none');
             } else {
                 addToCart.removeClass('d-none').addClass('d-inline-flex');
